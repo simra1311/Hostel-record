@@ -1,16 +1,19 @@
 package com.simra.HostelRecords;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -32,6 +35,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent i = getIntent();
+
         listView = (ListView)findViewById(R.id.list);
         list = new ArrayList<>();
         adapter = new CustomAdapter(this,list);
@@ -44,6 +49,39 @@ public class MainActivity extends ActionBarActivity {
 
                 intent.putExtra(Contract.TABLE_NAME,student);
                 startActivityForResult(intent , SEE_RECORDS);
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                View view1 = getLayoutInflater().inflate(R.layout.dialogue_remove_layout,null);
+                final int pos = position;
+                TextView textView = (TextView)view1.findViewById(R.id.title);
+                textView.setText("Remove record?");
+                final String name = list.get(position).getName();
+                builder.setView(view1);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        openHelper =StudentOpenHelper.getInstance(getApplicationContext());
+                        SQLiteDatabase db = openHelper.getWritableDatabase();
+
+                        db.delete(Contract.TABLE_NAME,Contract.STUDENT_ID + " = ? ",new String[]{list.get(pos).getId() + ""} );
+                        list.remove(pos);
+                        adapter.notifyDataSetChanged();
+
+                        openHelper = StudentOpenHelper.getInstance(getApplicationContext());
+                        SQLiteDatabase sq = openHelper.getWritableDatabase();
+                        sq.delete(Contract.ATTENDANCE_TABLE_NAME,Contract.NAME + " = ? ",new String[]{name});
+                    }
+                });
+                builder.setNegativeButton("Cancel",null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                return true;
             }
         });
 
@@ -69,10 +107,11 @@ public class MainActivity extends ActionBarActivity {
             int mobile = cursor.getInt(cursor.getColumnIndex(Contract.MOBILE_NO));
             int roomNo = cursor.getInt(cursor.getColumnIndex(Contract.ROOM_NO));
             int rollNo = cursor.getInt(cursor.getColumnIndex(Contract.ROLL_NO));
-            String password = cursor.getString(cursor.getColumnIndex(Contract.PASSWORD));
+            String father = cursor.getString(cursor.getColumnIndex(Contract.FATHER_NAME));
+            int father_no = cursor.getInt(cursor.getColumnIndex(Contract.FATHER_NO));
             long id = cursor.getLong(cursor.getColumnIndex(Contract.STUDENT_ID));
 
-            Student s = new Student(name,rollNo,roomNo,email,password,address,mobile,id);
+            Student s = new Student(name,rollNo,roomNo,email,father,father_no,address,mobile,id);
             list.add(s);
         }
         cursor.close();

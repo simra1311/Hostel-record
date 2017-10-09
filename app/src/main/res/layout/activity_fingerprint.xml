@@ -1,9 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.simra.HostelRecords.FingerprintActivity">
 
-</android.support.constraint.ConstraintLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/activity_fingerprint"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:paddingBottom="5dp"
+android:paddingLeft="5dp"
+android:paddingRight="5dp"
+android:paddingTop="10dp"
+tools:context="com.simra.HostelRecords.FingerprintActivity">
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/app_name"
+    android:id="@+id/textView"
+    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+    android:layout_centerHorizontal="true"/>
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:id="@+id/textview"/>
+
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:srcCompat="@drawable/finger"
+    android:id="@+id/imageView"
+    android:layout_below="@id/textView"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="36dp" />
+
+<TextView
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/textView2"
+    android:text="@string/instructions"
+    android:layout_below="@+id/imageView"
+    android:layout_alignParentStart="true"
+    android:layout_marginTop="27dp"
+    android:layout_alignParentLeft="true" />
+
+
+</RelativeLayout>

@@ -2,6 +2,7 @@ package com.simra.HostelRecords;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
@@ -70,6 +71,10 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     public void onAuthenticationSucceeded(
             FingerprintManager.AuthenticationResult result) {
 
-        Toast.makeText(context, "Success!", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Authentication Success6ful!", Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(context,MainActivity.class);
+        context.startActivity(intent);
+//        Intent intent = new Intent(FingerprintHandler.this,MainActivity.class);
     }
 }

@@ -31,8 +31,8 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.input_address) EditText _addressText;
     @Bind(R.id.input_email) EditText _emailText;
     @Bind(R.id.input_mobile) EditText _mobileText;
-    @Bind(R.id.input_password) EditText _passwordText;
-    @Bind(R.id.input_reEnterPassword) EditText _reEnterPasswordText;
+    @Bind(R.id.input_father) EditText _father;
+    @Bind(R.id.input_fatherNo) EditText _father_no;
     @Bind(R.id.btn_signup) Button _signupButton;
     @Bind(R.id.link_login) TextView _loginLink;
     EditText roll;
@@ -87,8 +87,8 @@ public class SignupActivity extends AppCompatActivity {
         String address = _addressText.getText().toString();
         String email = _emailText.getText().toString();
         String mobile = _mobileText.getText().toString();
-        String password = _passwordText.getText().toString();
-        String reEnterPassword = _reEnterPasswordText.getText().toString();
+        String father = _father.getText().toString();
+        String father_no = _father_no.getText().toString();
         int rollNo = Integer.parseInt(roll.getEditableText().toString());
         int roomNo = Integer.parseInt(room.getEditableText().toString());
 
@@ -103,7 +103,8 @@ public class SignupActivity extends AppCompatActivity {
         contentValues.put(Contract.EMAIL,email);
         contentValues.put(Contract.MOBILE_NO,mobile);
         contentValues.put(Contract.ADDRESS,address);
-        contentValues.put(Contract.PASSWORD,password);
+        contentValues.put(Contract.FATHER_NAME,father);
+        contentValues.put(Contract.FATHER_NO,father_no);
         contentValues.put(Contract.ROLL_NO,rollNo);
         contentValues.put(Contract.ROOM_NO,roomNo);
 
@@ -153,8 +154,8 @@ public class SignupActivity extends AppCompatActivity {
         String address = _addressText.getText().toString();
         String email = _emailText.getText().toString();
         String mobile = _mobileText.getText().toString();
-        String password = _passwordText.getText().toString();
-        String reEnterPassword = _reEnterPasswordText.getText().toString();
+        String father = _father.getText().toString();
+        String father_no = _father_no.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
             _nameText.setError("at least 3 characters");
@@ -185,18 +186,18 @@ public class SignupActivity extends AppCompatActivity {
             _mobileText.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+        if (father.isEmpty() || father.length() < 3 ) {
+            _father.setError("at least 3 characters");
             valid = false;
         } else {
-            _passwordText.setError(null);
+            _father.setError(null);
         }
 
-        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
-            _reEnterPasswordText.setError("Password Do not match");
+        if (father_no.isEmpty() || father_no.length() != 10 ) {
+            _father_no.setError("Enter Valid Mobile Number");
             valid = false;
         } else {
-            _reEnterPasswordText.setError(null);
+            _father_no.setError(null);
         }
 
         return valid;

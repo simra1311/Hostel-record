@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.input_email)
     EditText _emailText;
     @Bind(R.id.input_password)
-    EditText _passwordText;
+    EditText _father;
     @Bind(R.id.btn_login)
     Button _loginButton;
     @Bind(R.id.link_signup)
@@ -84,13 +84,13 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.show();
 
         String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        String father = _father.getText().toString();
 
         // authentication logic
 
         openHelper = StudentOpenHelper.getInstance(getApplicationContext());
         SQLiteDatabase sqLiteDatabase = openHelper.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.query(Contract.TABLE_NAME,null, Contract.EMAIL + " = ? AND " + Contract.PASSWORD + " = ? ", new String[]{email,password},null,null,null);
+        Cursor cursor = sqLiteDatabase.query(Contract.TABLE_NAME,null, Contract.EMAIL + " = ? AND " + Contract.FATHER_NAME + " = ? ", new String[]{email,father},null,null,null);
 
        if(cursor.moveToNext()){
            //har baar login ho rha h
@@ -99,9 +99,10 @@ public class LoginActivity extends AppCompatActivity {
             int roll = cursor.getInt(cursor.getColumnIndex(Contract.ROLL_NO));
             int room = cursor.getInt(cursor.getColumnIndex(Contract.ROOM_NO));
             int mobile = cursor.getInt(cursor.getColumnIndex(Contract.MOBILE_NO));
+           int no = cursor.getInt(cursor.getColumnIndex(Contract.FATHER_NO));
             long id = cursor.getLong(cursor.getColumnIndex(Contract.STUDENT_ID));
 
-            Student student = new Student(name,roll,room,email,password,add,mobile,id);
+            Student student = new Student(name,roll,room,email,father,no,add,mobile,id);
             Intent intent = new Intent(LoginActivity.this,PersonalisedRecords.class);
             intent.putExtra(Contract.TABLE_NAME,student);
             startActivity(intent);
@@ -163,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
         boolean valid = true;
 
         String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        String password = _father.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             _emailText.setError("enter a valid email address");
@@ -173,10 +174,10 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _father.setError("between 4 and 10 alphanumeric characters");
             valid = false;
         } else {
-            _passwordText.setError(null);
+            _father.setError(null);
         }
 
         return valid;

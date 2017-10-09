@@ -12,17 +12,19 @@ public class Student implements Serializable {
     private int rollNo;
     private int roomNo;
     private String email;
-    private String password;
+    private String father;
     private String address;
     private int mobile;
+    private int father_no;
     private long id;
 
-    public Student(String name, int rollNo, int roomNo, String email, String password, String address, int mobile, long id) {
+    public Student(String name, int rollNo, int roomNo, String email, String father,int father_no, String address, int mobile, long id) {
         this.name = name;
         this.rollNo = rollNo;
         this.roomNo = roomNo;
         this.email = email;
-        this.password = password;
+        this.father = father;
+        this.father_no = father_no;
         this.address = address;
         this.mobile = mobile;
         this.id = id;
@@ -60,12 +62,12 @@ public class Student implements Serializable {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getFather() {
+        return father;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setFather(String father) {
+        this.father = father;
     }
 
     public String getAddress() {
@@ -78,6 +80,14 @@ public class Student implements Serializable {
 
     public int getMobile() {
         return mobile;
+    }
+
+    public int getFather_no() {
+        return father_no;
+    }
+
+    public void setFather_no(int father_no) {
+        this.father_no = father_no;
     }
 
     public void setMobile(int mobile) {

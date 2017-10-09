@@ -134,17 +134,16 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_login) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivityForResult(intent,1);
-
-            return true;
-        }
-        else if (id == R.id.signup){
+//        if (id == R.id.action_login) {
+//            Intent intent = new Intent(this, LoginActivity.class);
+//            startActivityForResult(intent,1);
+//
+//            return true;
+//        }
+         if (id == R.id.signup){
             Intent intent = new Intent(this, SignupActivity.class);
             startActivity(intent);
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

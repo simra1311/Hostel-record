@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.Bind;
@@ -34,7 +33,7 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.input_father) EditText _father;
     @Bind(R.id.input_fatherNo) EditText _father_no;
     @Bind(R.id.btn_signup) Button _signupButton;
-    @Bind(R.id.link_login) TextView _loginLink;
+//    @Bind(R.id.link_login) TextView _loginLink;
     EditText roll;
     EditText room;
     
@@ -55,16 +54,16 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        _loginLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                startActivity(intent);
-                finish();
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-            }
-        });
+//        _loginLink.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Finish the registration screen and return to the Login activity
+//                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+//                startActivity(intent);
+//                finish();
+//                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+//            }
+//        });
     }
 
     public void signup() {

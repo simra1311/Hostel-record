@@ -7,12 +7,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,6 +34,7 @@ public class PersonalisedRecords extends AppCompatActivity {
     Button mark;
     Button leave;
     int father_no ;
+    String student_name;
 
     String phoneNo;
     String message;
@@ -52,7 +57,7 @@ public class PersonalisedRecords extends AppCompatActivity {
 
         Student student = (Student)intent.getSerializableExtra(Contract.TABLE_NAME);
 
-        final String student_name = student.getName();
+         student_name = student.getName();
 
         openHelper = StudentOpenHelper.getInstance(getApplicationContext());
         final SQLiteDatabase sqLiteDatabase = openHelper.getReadableDatabase();
@@ -148,7 +153,8 @@ public class PersonalisedRecords extends AppCompatActivity {
                         if (cursor.moveToNext()){
                            father_no = cursor.getInt(cursor.getColumnIndex(Contract.FATHER_NO));
                         }
-                        sendSMS(father_no);
+                        cursor.close();
+                        sendSMSIntent(father_no);
                     }
                 });
                 builder.setNegativeButton("Cancel",null);
@@ -157,6 +163,26 @@ public class PersonalisedRecords extends AppCompatActivity {
             }
         });
     }
+
+    protected void sendSMSIntent(int father_no) {
+        Log.i("Send SMS", "");
+        Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+
+        smsIntent.setData(Uri.parse("smsto:"));
+        smsIntent.setType("vnd.android-dir/mms-sms");
+        smsIntent.putExtra("address"  , new String (father_no + ""));
+        smsIntent.putExtra("sms_body"  , "Your ward " + name.getText().toString() + " is on leave from hostel");
+
+        try {
+            startActivity(smsIntent);
+            finish();
+            Log.i("Finished sending SMS...", "");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(PersonalisedRecords.this,
+                    "SMS failed, please try again later.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void sendSMS(int father_no) {
 
@@ -174,7 +200,11 @@ public class PersonalisedRecords extends AppCompatActivity {
                         MY_PERMISSIONS_REQUEST_SEND_SMS);
             }
         }
-
+        else{
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNo, null, message, null, null);
+            Toast.makeText(PersonalisedRecords.this,"in else",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -187,13 +217,41 @@ public class PersonalisedRecords extends AppCompatActivity {
                     smsManager.sendTextMessage(phoneNo, null, message, null, null);
                     Toast.makeText(getApplicationContext(), "SMS sent",
                             Toast.LENGTH_LONG).show();
-                } else {
+                }  else {
                     Toast.makeText(getApplicationContext(),
                             "SMS failed, please try again...", Toast.LENGTH_LONG).show();
                     return;
                 }
             }
         }
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.personalised_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_login) {
+//            Intent intent = new Intent(this, LoginActivity.class);
+//            startActivityForResult(intent,1);
+//
+//            return true;
+//        }
+        if (id == R.id.detail){
+            Intent intent = new Intent(this, DetailedRecords.class);
+            intent.putExtra("name",student_name);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

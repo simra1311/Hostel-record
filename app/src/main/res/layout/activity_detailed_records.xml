@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#B3F9FA"
     tools:context="com.simra.HostelRecords.DetailedRecords">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-
+        android:layout_weight="1"
+        >
     <TextView
 
         android:layout_height="match_parent"
@@ -28,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:textColor="@android:color/black"
-
+            android:id="@+id/name"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textAllCaps="true"
             android:layout_margin="10dp"/>
@@ -51,7 +51,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:textColor="@android:color/black"
-
+            android:id="@+id/address"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textAllCaps="true"
             android:layout_margin="10dp"/>
@@ -74,7 +74,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:textColor="@android:color/black"
-
+            android:id="@+id/email"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textAllCaps="true"
             android:layout_margin="10dp"/>
@@ -97,7 +97,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:textColor="@android:color/black"
-
+            android:id="@+id/mobile"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textAllCaps="true"
             android:layout_margin="10dp"/>
@@ -120,7 +120,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:textColor="@android:color/black"
-
+            android:id="@+id/roll"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textAllCaps="true"
             android:layout_margin="10dp"/>
@@ -143,7 +143,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:textColor="@android:color/black"
-
+            android:id="@+id/room"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textAllCaps="true"
             android:layout_margin="10dp"/>
@@ -166,7 +166,31 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:textColor="@android:color/black"
+            android:id="@+id/father"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:textAllCaps="true"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:textColor="@android:color/black"
+            android:text="father's No :"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:textAllCaps="true"
+            android:layout_margin="10dp"/>
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:id="@+id/fatherNo"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textAllCaps="true"
             android:layout_margin="10dp"/>
@@ -183,7 +207,7 @@
             android:text="father's no :"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textAllCaps="true"
-            android:layout_margin="20dp"/>
+            android:layout_margin="10dp"/>
         <TextView
             android:layout_height="match_parent"
             android:layout_width="0dp"
@@ -192,7 +216,10 @@
 
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textAllCaps="true"
-            android:layout_margin="20dp"/>
+            android:layout_margin="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </LinearLayout>

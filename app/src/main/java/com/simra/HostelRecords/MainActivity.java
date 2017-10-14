@@ -104,11 +104,11 @@ public class MainActivity extends ActionBarActivity {
             String name = cursor.getString(cursor.getColumnIndex(Contract.STUDENT_NAME));
             String email = cursor.getString(cursor.getColumnIndex(Contract.EMAIL));
             String address = cursor.getString(cursor.getColumnIndex(Contract.ADDRESS));
-            int mobile = cursor.getInt(cursor.getColumnIndex(Contract.MOBILE_NO));
+            String mobile = cursor.getString(cursor.getColumnIndex(Contract.MOBILE_NO));
             int roomNo = cursor.getInt(cursor.getColumnIndex(Contract.ROOM_NO));
             int rollNo = cursor.getInt(cursor.getColumnIndex(Contract.ROLL_NO));
             String father = cursor.getString(cursor.getColumnIndex(Contract.FATHER_NAME));
-            int father_no = cursor.getInt(cursor.getColumnIndex(Contract.FATHER_NO));
+            String father_no = cursor.getString(cursor.getColumnIndex(Contract.FATHER_NO));
             long id = cursor.getLong(cursor.getColumnIndex(Contract.STUDENT_ID));
 
             Student s = new Student(name,rollNo,roomNo,email,father,father_no,address,mobile,id);

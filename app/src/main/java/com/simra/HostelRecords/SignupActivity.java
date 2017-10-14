@@ -30,6 +30,8 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.input_address) EditText _addressText;
     @Bind(R.id.input_email) EditText _emailText;
     @Bind(R.id.input_mobile) EditText _mobileText;
+    @Bind(R.id.roll) EditText _roll;
+    @Bind(R.id.room) EditText _room;
     @Bind(R.id.input_father) EditText _father;
     @Bind(R.id.input_fatherNo) EditText _father_no;
     @Bind(R.id.btn_signup) Button _signupButton;
@@ -85,8 +87,10 @@ public class SignupActivity extends AppCompatActivity {
         String name = _nameText.getText().toString();
         String address = _addressText.getText().toString();
         String email = _emailText.getText().toString();
+       // int mobile = Integer.parseInt(_mobileText.getEditableText().toString());
         String mobile = _mobileText.getText().toString();
         String father = _father.getText().toString();
+       // int father_no = Integer.parseInt(_father_no.getEditableText().toString());
         String father_no = _father_no.getText().toString();
         int rollNo = Integer.parseInt(roll.getEditableText().toString());
         int roomNo = Integer.parseInt(room.getEditableText().toString());
@@ -106,6 +110,7 @@ public class SignupActivity extends AppCompatActivity {
         contentValues.put(Contract.FATHER_NO,father_no);
         contentValues.put(Contract.ROLL_NO,rollNo);
         contentValues.put(Contract.ROOM_NO,roomNo);
+
 
         long id = database.insert(Contract.TABLE_NAME,null,contentValues);
 
@@ -155,6 +160,8 @@ public class SignupActivity extends AppCompatActivity {
         String mobile = _mobileText.getText().toString();
         String father = _father.getText().toString();
         String father_no = _father_no.getText().toString();
+        String rollNo = _roll.getText().toString();
+        String room = _room.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
             _nameText.setError("at least 3 characters");
@@ -170,6 +177,21 @@ public class SignupActivity extends AppCompatActivity {
             _addressText.setError(null);
         }
 
+        if (rollNo.isEmpty()){
+            _roll.setError("enter a valid roll no");
+            valid = false;
+        }
+        else {
+            _roll.setError(null);
+        }
+
+        if (room.isEmpty()){
+            _room.setError("enter valid room no");
+            valid = false;
+        }
+        else {
+            _room.setError(null);
+        }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             _emailText.setError("enter a valid email address");

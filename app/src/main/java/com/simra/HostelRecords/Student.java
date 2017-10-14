@@ -14,11 +14,11 @@ public class Student implements Serializable {
     private String email;
     private String father;
     private String address;
-    private int mobile;
-    private int father_no;
+    private String mobile;
+    private String father_no;
     private long id;
 
-    public Student(String name, int rollNo, int roomNo, String email, String father,int father_no, String address, int mobile, long id) {
+    public Student(String name, int rollNo, int roomNo, String email, String father,String father_no, String address, String mobile, long id) {
         this.name = name;
         this.rollNo = rollNo;
         this.roomNo = roomNo;
@@ -78,20 +78,20 @@ public class Student implements Serializable {
         this.address = address;
     }
 
-    public int getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public int getFather_no() {
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getFather_no() {
         return father_no;
     }
 
-    public void setFather_no(int father_no) {
+    public void setFather_no(String father_no) {
         this.father_no = father_no;
-    }
-
-    public void setMobile(int mobile) {
-        this.mobile = mobile;
     }
 
     public long getId() {

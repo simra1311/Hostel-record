@@ -33,8 +33,10 @@ public class PersonalisedRecords extends AppCompatActivity {
 
     Button mark;
     Button leave;
-    int father_no ;
+    String father_no ;
     String student_name;
+    int roll;
+    int room;
 
     String phoneNo;
     String message;
@@ -58,6 +60,8 @@ public class PersonalisedRecords extends AppCompatActivity {
         Student student = (Student)intent.getSerializableExtra(Contract.TABLE_NAME);
 
          student_name = student.getName();
+         roll = student.getRollNo();
+         room = student.getRoomNo();
 
         openHelper = StudentOpenHelper.getInstance(getApplicationContext());
         final SQLiteDatabase sqLiteDatabase = openHelper.getReadableDatabase();
@@ -112,8 +116,11 @@ public class PersonalisedRecords extends AppCompatActivity {
                 database.update(Contract.ATTENDANCE_TABLE_NAME,contentValues,Contract.NAME + " = ?",new String[]{student_name});
                 Toast.makeText(PersonalisedRecords.this,"Marked attendance",Toast.LENGTH_SHORT).show();
 
-                int att = Integer.parseInt(attendance.getText().toString());
-                attendance.setText(att+1 +" ");
+//                int att = Integer.parseInt(attendance.getText().toString());
+//                attendance.setText(att+1 +" ");
+
+                Intent i = new Intent(PersonalisedRecords.this,CustomCalendar.class);
+                startActivity(i);
             }
         });
 
@@ -151,10 +158,10 @@ public class PersonalisedRecords extends AppCompatActivity {
 
                         Cursor cursor = database.query(Contract.TABLE_NAME,null,Contract.STUDENT_NAME +" = ? ",new String[]{student_name},null,null,null);
                         if (cursor.moveToNext()){
-                           father_no = cursor.getInt(cursor.getColumnIndex(Contract.FATHER_NO));
+                           father_no = cursor.getString(cursor.getColumnIndex(Contract.FATHER_NO));
                         }
                         cursor.close();
-                        sendSMSIntent(father_no);
+                        sendSMS(father_no);
                     }
                 });
                 builder.setNegativeButton("Cancel",null);
@@ -164,13 +171,13 @@ public class PersonalisedRecords extends AppCompatActivity {
         });
     }
 
-    protected void sendSMSIntent(int father_no) {
+    protected void sendSMSIntent(String father_no) {
         Log.i("Send SMS", "");
         Intent smsIntent = new Intent(Intent.ACTION_VIEW);
 
         smsIntent.setData(Uri.parse("smsto:"));
         smsIntent.setType("vnd.android-dir/mms-sms");
-        smsIntent.putExtra("address"  , new String (father_no + ""));
+        smsIntent.putExtra("address"  , new String (father_no));
         smsIntent.putExtra("sms_body"  , "Your ward " + name.getText().toString() + " is on leave from hostel");
 
         try {
@@ -184,9 +191,9 @@ public class PersonalisedRecords extends AppCompatActivity {
     }
 
 
-    private void sendSMS(int father_no) {
+    private void sendSMS(String father_no) {
 
-        phoneNo = String.valueOf(father_no);
+        phoneNo = father_no;
         message = "This is to inform you that your ward " + name.getText().toString() + " is on leave from hostel";
 
         if (ContextCompat.checkSelfPermission(this,
@@ -250,6 +257,8 @@ public class PersonalisedRecords extends AppCompatActivity {
         if (id == R.id.detail){
             Intent intent = new Intent(this, DetailedRecords.class);
             intent.putExtra("name",student_name);
+            intent.putExtra("roll",roll);
+            intent.putExtra("room",room);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

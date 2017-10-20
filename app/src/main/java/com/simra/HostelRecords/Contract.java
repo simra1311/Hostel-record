@@ -25,7 +25,11 @@ public class Contract {
     public static final String PENDING_FINE = "fine";
     public static final String LEAVE_DAYS = "tot_leaves";
     public static final String ATTENDANCE_ID = "attendance_id";
+    public static final String MARKED = "marked";
 
+    public static final String DAILY_RECORD = "daily_rec";
+    public static final String DATE = "date";
+    public static final String DATE_ID = "date_id";
 
 
 }

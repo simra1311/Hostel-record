@@ -123,6 +123,7 @@ public class SignupActivity extends AppCompatActivity {
         cv.put(Contract.ABSENT_DAYS,0);
         cv.put(Contract.LEAVE_DAYS,0);
         cv.put(Contract.PENDING_FINE,0);
+        cv.put(Contract.MARKED,0);
 
        long att_id =  sqLiteDatabase.insert(Contract.ATTENDANCE_TABLE_NAME,null,cv);
 

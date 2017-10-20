@@ -48,6 +48,13 @@ public class StudentOpenHelper  extends SQLiteOpenHelper {
                 Contract.PENDING_FINE + " INTEGER)";
 
         sqLiteDatabase.execSQL(query1);
+
+        String query2 = "CREATE TABLE " + Contract.DAILY_RECORD + " ( " +
+                Contract.DATE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Contract.STUDENT_NAME + " TEXT, " +
+                Contract.DATE + " INTEGER) ";
+
+        sqLiteDatabase.execSQL(query2);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.simra.HostelRecords;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,6 +26,8 @@ import java.util.Locale;
 
 public class CustomCalendar extends AppCompatActivity implements OnClickListener
 {
+    String stud_name;
+
     private Button selectedDayMonthYearButton;
     private Button currentMonth;
     private ImageView prevMonth;
@@ -35,11 +39,15 @@ public class CustomCalendar extends AppCompatActivity implements OnClickListener
     private static final String dateTemplate = "MMMM yyyy";
     String flag ="abc";
     String date_month_year;
+//    ArrayList<Long> marked_dates = new ArrayList<>();
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_calendar);
+
+        Intent intent = getIntent();
+        stud_name = intent.getStringExtra("name");
 
         _calendar = Calendar.getInstance(Locale.getDefault());
         month = _calendar.get(Calendar.MONTH) + 1;
@@ -63,6 +71,15 @@ public class CustomCalendar extends AppCompatActivity implements OnClickListener
         adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
         adapter.notifyDataSetChanged();
         calendarView.setAdapter(adapter);
+
+//        StudentOpenHelper openHelper = StudentOpenHelper.getInstance(getApplicationContext());
+//        SQLiteDatabase sqLiteDatabase = openHelper.getReadableDatabase();
+//        Cursor cursor = sqLiteDatabase.query(Contract.DAILY_RECORD,null,Contract.STUDENT_NAME +" = ? ",new String[]{stud_name},null,null,null);
+//
+//        while (cursor.moveToNext()) {
+//            long date = cursor.getLong(cursor.getColumnIndex(Contract.))
+//
+//        }
     }
 
 
@@ -230,6 +247,8 @@ public class CustomCalendar extends AppCompatActivity implements OnClickListener
 
             // Get a reference to the Day gridcell
             gridcell = (Button) row.findViewById(R.id.calendar_day_gridcell);
+            //check if this day is marked present then change textcolor
+
             gridcell.setOnClickListener(this);
 
             // ACCOUNT FOR SPACING
@@ -263,21 +282,33 @@ public class CustomCalendar extends AppCompatActivity implements OnClickListener
         }
         @Override
         public void onClick(View view){
+
+            Button button = (Button)view;
+            String date = button.getText().toString();
+            Toast.makeText(CustomCalendar.this,"Marked for " + date+"/"+ months[month-1]+"/"+year,Toast.LENGTH_SHORT  ).show();
+            button.setTextColor(getResources().getColor(R.color.black));
+           // button.setBackgroundColor(getResources().getColor(R.color.accent));
             date_month_year = (String) view.getTag();
             flag ="Date selected ...";
-            selectedDayMonthYearButton.setText("Selected: " + date_month_year);
+        //    gridcell.setBackgroundColor(getResources().getColor(R.color.accent));
+            selectedDayMonthYearButton.setText("Marked attendance for: " + date_month_year);
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.set(year,month,);
+//            Toast.makeTgit ext(CustomCalendar.this,"Att: " + currentDayOfMonth+"/"+month+"/"+year,Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(CustomCalendar.this,"Marked attendance for: " + date_month_year,Toast.LENGTH_SHORT).show();
+          //  finish();
         }
 
         public int getCurrentDayOfMonth(){
             return currentDayOfMonth;
         }
-
         private void setCurrentDayOfMonth(int currentDayOfMonth){
             this.currentDayOfMonth = currentDayOfMonth;
         }
         public void setCurrentWeekDay(int currentWeekDay){
             this.currentWeekDay = currentWeekDay;
         }
+
         public int getCurrentWeekDay(){
             return currentWeekDay;
         }

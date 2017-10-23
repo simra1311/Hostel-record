@@ -1,12 +1,14 @@
 package com.simra.HostelRecords;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,15 +16,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Simra Afreen on 02-10-2017.
  */
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     StudentOpenHelper openHelper;
     ArrayList<Student> list;
@@ -115,6 +120,8 @@ public class MainActivity extends ActionBarActivity {
             list.add(s);
         }
         cursor.close();
+//        StudentDatabase studentDatabasse = StudentDatabase.getInstance(MainActivity.this);
+//        list.addAll(studentDatabasse.getDao().getStudentList());
         adapter.notifyDataSetChanged();
 
     }
@@ -144,6 +151,39 @@ public class MainActivity extends ActionBarActivity {
             Intent intent = new Intent(this, SignupActivity.class);
             startActivity(intent);
         }
+
+        if (id == R.id.start){
+            //code for adding alarm notifications
+            sendBroadcast();
+
+        }
+        if (id == R.id.stop){
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            Intent alarmIntent = new Intent(MainActivity.this,AlarmReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,1,alarmIntent,0);
+            alarmManager.cancel(pendingIntent);
+            Toast.makeText(MainActivity.this,"Alarm cancelled",Toast.LENGTH_SHORT).show();
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    public void sendBroadcast(){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        Intent alarmIntent = new Intent(this,AlarmReceiver.class);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1,alarmIntent,0);
+
+        Toast.makeText(MainActivity.this , "Alarm set", Toast.LENGTH_SHORT).show();
+       // alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ AlarmManager.INTERVAL_DAY,AlarmManager.INTERVAL_DAY,pendingIntent);
+
+        Calendar calendar = Calendar.getInstance();
+       // Time time = new Time(9,30,0);
+        Date date = new Date(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH),21,30);
+        calendar.setTime(date);
+      //  calendar.setTimeInMillis(System.currentTimeMillis());
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+
     }
 }

@@ -115,7 +115,7 @@ public class CustomCalendar extends AppCompatActivity implements OnClickListener
     }
 
 
-    // ///////////////////////////////////////////////////////////////////////////////////////
+
     // Inner Class
     public class GridCellAdapter extends BaseAdapter implements OnClickListener
     {
@@ -129,7 +129,7 @@ public class CustomCalendar extends AppCompatActivity implements OnClickListener
         private int currentDayOfMonth;
         private int currentWeekDay;
         private Button gridcell;
-        private TextView num_events_per_day;
+        private TextView events_per_day;
         private final HashMap<String, Integer> eventsPerMonthMap;
 
         // Days in Current Month
@@ -228,7 +228,8 @@ public class CustomCalendar extends AppCompatActivity implements OnClickListener
         }
 
         private HashMap<String, Integer> findNumberOfEventsPerMonth(int year, int month){
-            HashMap<String, Integer> map = new HashMap<String, Integer>();
+            HashMap<String, Integer> map = new HashMap<>();
+            //// TODO:
             return map;
         }
 
@@ -245,7 +246,6 @@ public class CustomCalendar extends AppCompatActivity implements OnClickListener
                 row = inflater.inflate(R.layout.calendar_day_gridcell, parent, false);
             }
 
-            // Get a reference to the Day gridcell
             gridcell = (Button) row.findViewById(R.id.calendar_day_gridcell);
             //check if this day is marked present then change textcolor
 
@@ -259,9 +259,9 @@ public class CustomCalendar extends AppCompatActivity implements OnClickListener
             String theyear = day_color[3];
             if ((!eventsPerMonthMap.isEmpty()) && (eventsPerMonthMap != null)){
                 if (eventsPerMonthMap.containsKey(theday)){
-                    num_events_per_day = (TextView) row.findViewById(R.id.num_events_per_day);
+                    events_per_day = (TextView) row.findViewById(R.id.num_events_per_day);
                     Integer numEvents = (Integer) eventsPerMonthMap.get(theday);
-                    num_events_per_day.setText(numEvents.toString());
+                    events_per_day.setText(numEvents.toString());
                 }
             }
 

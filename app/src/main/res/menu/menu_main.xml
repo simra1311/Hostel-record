@@ -4,5 +4,15 @@
     <!--<item android:id="@+id/action_login" android:title="Student Login" />-->
 
     <item android:id="@+id/signup" android:title="Add Record" />
+    <item android:id="@+id/settings" android:title="Settings">
+
+        <menu>
+
+            <item android:title="Add alarm reminder" android:id="@+id/start"/>
+            <item android:title="Stop alarm notifications" android:id="@+id/stop"/>
+
+        </menu>
+
+    </item>
 
 </menu>

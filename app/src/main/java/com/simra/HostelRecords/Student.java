@@ -1,11 +1,15 @@
 package com.simra.HostelRecords;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.io.Serializable;
 
 /**
  * Created by Simra Afreen on 02-10-2017.
  */
 
+@Entity(tableName = "student")
 public class Student implements Serializable {
 
     private String name;
@@ -16,6 +20,7 @@ public class Student implements Serializable {
     private String address;
     private String mobile;
     private String father_no;
+    @PrimaryKey(autoGenerate = true)
     private long id;
 
     public Student(String name, int rollNo, int roomNo, String email, String father,String father_no, String address, String mobile, long id) {

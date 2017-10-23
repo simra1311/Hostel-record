@@ -95,6 +95,9 @@ public class SignupActivity extends AppCompatActivity {
         int rollNo = Integer.parseInt(roll.getEditableText().toString());
         int roomNo = Integer.parseInt(room.getEditableText().toString());
 
+       // Student student = new Student(name,rollNo,roomNo,email,father,father_no,address,mobile,//TODO: how to add id here
+                // );
+
         // TODO: Implement signup logic here.
 
         openHelper = StudentOpenHelper.getInstance(getApplicationContext());
@@ -113,6 +116,9 @@ public class SignupActivity extends AppCompatActivity {
 
 
         long id = database.insert(Contract.TABLE_NAME,null,contentValues);
+
+//        StudentDatabase studentDatabasse = StudentDatabase.getInstance(this);
+//        studentDatabasse.getDao().addStudent(student);
 
         StudentOpenHelper attendanceOpenHelper = StudentOpenHelper.getInstance(getApplicationContext());
         SQLiteDatabase sqLiteDatabase = attendanceOpenHelper.getWritableDatabase();

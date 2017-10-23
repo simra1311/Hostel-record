@@ -22,14 +22,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"></activity>
-        <activity
             android:name=".SignupActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity android:name=".PersonalisedRecords" />
         <activity android:name=".DetailedRecords" />
-        <activity android:name=".CustomCalendar"></activity>
+        <activity android:name=".CustomCalendar" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

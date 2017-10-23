@@ -39,8 +39,9 @@ public class CustomCalendar extends AppCompatActivity implements OnClickListener
     private static final String dateTemplate = "MMMM yyyy";
     String flag ="abc";
     String date_month_year;
+    boolean clicked = false;
 //    ArrayList<Long> marked_dates = new ArrayList<>();
-    /** Called when the activity is first created. */
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -175,7 +176,6 @@ public class CustomCalendar extends AppCompatActivity implements OnClickListener
             int currentMonth = mm - 1;
             daysInMonth = getNumberOfDaysOfMonth(currentMonth);
 
-
             // Gregorian Calendar : MINUS 1, set to FIRST OF MONTH
             GregorianCalendar cal = new GregorianCalendar(yy, currentMonth, 1);
 
@@ -283,6 +283,13 @@ public class CustomCalendar extends AppCompatActivity implements OnClickListener
         @Override
         public void onClick(View view){
 
+            if (clicked == true){
+                Toast.makeText(CustomCalendar.this,"You have already marked today's Attendance",Toast.LENGTH_LONG).show();
+                Toast.makeText(CustomCalendar.this,"Please exit!!!",Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            clicked = true;
             Button button = (Button)view;
             String date = button.getText().toString();
             Toast.makeText(CustomCalendar.this,"Marked for " + date+"/"+ months[month-1]+"/"+year,Toast.LENGTH_SHORT  ).show();

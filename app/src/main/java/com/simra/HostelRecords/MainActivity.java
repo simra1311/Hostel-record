@@ -6,10 +6,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
+import android.support.v7. widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,12 +27,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by Simra Afreen on 02-10-2017.
- */
-
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     StudentOpenHelper openHelper;
     ArrayList<Student> list;
@@ -39,8 +40,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        Intent i = getIntent();
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         listView = (ListView)findViewById(R.id.list);
         list = new ArrayList<>();
@@ -93,6 +112,72 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_add){
+            Intent intent = new Intent(this, SignupActivity.class);
+            startActivity(intent);
+        }
+
+        if (id == R.id.start){
+            //code for adding alarm notifications
+            sendBroadcast();
+
+        }
+        if (id == R.id.stop){
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            Intent alarmIntent = new Intent(MainActivity.this,AlarmReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,1,alarmIntent,0);
+            alarmManager.cancel(pendingIntent);
+            Toast.makeText(MainActivity.this,"Alarm cancelled",Toast.LENGTH_SHORT).show();
+        }
+
+        if (id == R.id.nav_import) {
+            // Handle the import action
+        } else if (id == R.id.nav_tools) {
+
+        } else if (id == R.id.nav_share) {
+
+            Intent share = new Intent();
+            share.setAction(Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.putExtra(Intent.EXTRA_TEXT,"DOWNLOAD our app");
+            Intent chooser = Intent.createChooser(share,"Share App");
+            startActivity(chooser);
+
+        }
+        else if (id == R.id.nav_send){
+            Intent feedback = new Intent();
+            feedback.setAction(Intent.ACTION_SENDTO);
+            feedback.setData(Uri.parse("mailto:simraafreen.13@gmail.com"));
+            feedback.putExtra(Intent.EXTRA_TEXT,"FEEDBACK");
+            if(feedback.resolveActivity(getPackageManager()) != null){
+                startActivity(feedback);
+            }
+            else {
+
+            }
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         fetchFromDatabase();
@@ -126,47 +211,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_login) {
-//            Intent intent = new Intent(this, LoginActivity.class);
-//            startActivityForResult(intent,1);
-//
-//            return true;
-//        }
-         if (id == R.id.signup){
-            Intent intent = new Intent(this, SignupActivity.class);
-            startActivity(intent);
-        }
-
-        if (id == R.id.start){
-            //code for adding alarm notifications
-            sendBroadcast();
-
-        }
-        if (id == R.id.stop){
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-            Intent alarmIntent = new Intent(MainActivity.this,AlarmReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,1,alarmIntent,0);
-            alarmManager.cancel(pendingIntent);
-            Toast.makeText(MainActivity.this,"Alarm cancelled",Toast.LENGTH_SHORT).show();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public void sendBroadcast(){
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -176,13 +227,13 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1,alarmIntent,0);
 
         Toast.makeText(MainActivity.this , "Alarm set", Toast.LENGTH_SHORT).show();
-       // alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ AlarmManager.INTERVAL_DAY,AlarmManager.INTERVAL_DAY,pendingIntent);
+        // alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ AlarmManager.INTERVAL_DAY,AlarmManager.INTERVAL_DAY,pendingIntent);
 
         Calendar calendar = Calendar.getInstance();
-       // Time time = new Time(9,30,0);
+        // Time time = new Time(9,30,0);
         Date date = new Date(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH),21,30);
         calendar.setTime(date);
-      //  calendar.setTimeInMillis(System.currentTimeMillis());
+        //  calendar.setTimeInMillis(System.currentTimeMillis());
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
 
     }

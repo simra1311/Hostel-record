@@ -23,6 +23,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Created by Simra Afreen on 24-09-2017.
+ */
 public class PersonalisedRecords extends AppCompatActivity {
 
     StudentOpenHelper openHelper;

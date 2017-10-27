@@ -6,15 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#B3F9FA"
+
     tools:context="com.simra.HostelRecords.DetailedRecords">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        >
-    <TextView
+        android:layout_weight="1">
 
+    <TextView
         android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -23,6 +22,7 @@
         android:textAppearance="@android:style/TextAppearance.Large"
         android:textAllCaps="true"
         android:layout_margin="10dp"/>
+
         <TextView
             android:layout_height="match_parent"
             android:layout_width="0dp"
@@ -75,7 +75,7 @@
             android:layout_weight="1"
             android:textColor="@android:color/black"
             android:id="@+id/email"
-            android:textAppearance="@android:style/TextAppearance.Large"
+            android:textAppearance="@android:style/TextAppearance.Medium"
             android:textAllCaps="true"
             android:layout_margin="10dp"/>
     </LinearLayout>
@@ -204,21 +204,21 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:textColor="@android:color/black"
-            android:text="father's no :"
+            android:text="year :"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textAllCaps="true"
             android:layout_margin="10dp"/>
+
         <TextView
             android:layout_height="match_parent"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:id="@+id/year"
             android:textColor="@android:color/black"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textAllCaps="true"
             android:layout_margin="10dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </LinearLayout>

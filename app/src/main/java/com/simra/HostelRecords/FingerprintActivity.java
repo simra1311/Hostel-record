@@ -49,13 +49,6 @@ public class FingerprintActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fingerprint);
 
         Intent i = getIntent();
-//        if (i == null)
-//            finish();
-//
-//        if (getCallingActivity()==null){
-//            finish();
-//        }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             keyguardManager =
                     (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
@@ -89,23 +82,10 @@ public class FingerprintActivity extends AppCompatActivity {
                     cryptoObject = new FingerprintManager.CryptoObject(cipher);
                     FingerprintHandler helper = new FingerprintHandler(this);
                     helper.startAuth(fingerprintManager, cryptoObject);
-//                    if (key == 1){
-//                        Intent intent = new Intent(MainActivity.this,StartActivity.class);
-//                        startActivity(intent);
-//                    }
+
                 }
             }
         }
-
-//        if (key == 1){
-//            Intent intent = new Intent(MainActivity.this,StartActivity.class);
-//            startActivity(intent);
-//        }
-
-//        if (FingerprintHandler.key == true){
-//            Intent intent = new Intent(this,StartActivity.class);
-//            startActivity(intent);
-//        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

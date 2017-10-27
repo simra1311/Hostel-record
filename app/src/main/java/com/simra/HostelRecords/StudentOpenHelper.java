@@ -36,6 +36,7 @@ public class StudentOpenHelper  extends SQLiteOpenHelper {
                 Contract.FATHER_NAME + " TEXT, " +
                 Contract.FATHER_NO + " TEXT, " +
                 Contract.MOBILE_NO + " TEXT, " +
+                Contract.YEAR + " INTEGER, " +
                 Contract.ADDRESS + " TEXT)" ;
         sqLiteDatabase.execSQL(query);
 

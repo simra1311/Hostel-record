@@ -17,6 +17,7 @@ public class DetailedRecords extends AppCompatActivity {
     TextView rollNo;
     TextView roomNo;
     TextView address;
+    TextView year1;
     StudentOpenHelper openHelper;
 
     Student student;
@@ -27,6 +28,7 @@ public class DetailedRecords extends AppCompatActivity {
     String mob;
     String father_no;
     String father;
+    int year;
     int id;
 
     @Override
@@ -42,10 +44,12 @@ public class DetailedRecords extends AppCompatActivity {
         rollNo =(TextView) findViewById(R.id.roll);
         roomNo =(TextView) findViewById(R.id.room);
         address =(TextView) findViewById(R.id.address);
+        year1 = (TextView)findViewById(R.id.year);
+
 
         Intent intent = getIntent();
         String student_name = intent.getStringExtra("name");
-        roll = intent.getIntExtra("roll",0);
+        roll = intent.getIntExtra("year",0);
         room = intent.getIntExtra("room",0);
         openHelper = StudentOpenHelper.getInstance(getApplicationContext());
         final SQLiteDatabase sqLiteDatabase = openHelper.getReadableDatabase();
@@ -69,7 +73,8 @@ public class DetailedRecords extends AppCompatActivity {
             email = cursor.getString(cursor.getColumnIndex(Contract.EMAIL));
             id = cursor.getInt(cursor.getColumnIndex(Contract.STUDENT_ID));
             add = cursor.getString(cursor.getColumnIndex(Contract.ADDRESS));
-            student = new Student(student_name, roll, room, email, father, father_no, add, mob, id);
+            year = cursor.getInt(cursor.getColumnIndex(Contract.YEAR));
+            student = new Student(student_name, roll, room, email, father, father_no, add, mob,year, id);
         }
 
     //    Toast.makeText(this,student.getRollNo()+"helo",Toast.LENGTH_SHORT).show();
@@ -82,5 +87,6 @@ public class DetailedRecords extends AppCompatActivity {
           mobile.setText(student.getMobile()+"");
           rollNo.setText(roll + "");
           roomNo.setText(room + "");
+          year1.setText(year+"");
     }
 }

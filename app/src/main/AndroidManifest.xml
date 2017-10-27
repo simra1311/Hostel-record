@@ -21,12 +21,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".SignupActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity android:name=".PersonalisedRecords" />
         <activity android:name=".DetailedRecords" />
         <activity android:name=".CustomCalendar" />
+        <receiver android:name=".AlarmReceiver">
+            <intent-filter>
+                <action android:name="com.example.helloandroid.alarms" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main2"

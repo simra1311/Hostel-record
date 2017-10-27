@@ -18,12 +18,11 @@
             android:id="@+id/nav_tools"
             android:icon="@drawable/ic_menu_manage"
             android:title="Tools" >
-
             <menu>
-
                 <item android:title="Add alarm reminder" android:id="@+id/start"/>
                 <item android:title="Stop alarm notifications" android:id="@+id/stop"/>
-
+                <item android:id="@+id/rooms" android:title="Sort by room no"/>
+                <item android:id="@+id/year" android:title="Sort by year"/>
             </menu>
             </item>
     </group>

@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import butterknife.Bind;
@@ -38,6 +40,10 @@ public class SignupActivity extends AppCompatActivity {
 //    @Bind(R.id.link_login) TextView _loginLink;
     EditText roll;
     EditText room;
+    RadioGroup radioGroup;
+    RadioButton first,second,third,fourth;
+    int year;
+    boolean flag = false;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,12 @@ public class SignupActivity extends AppCompatActivity {
 
         roll = (EditText)findViewById(R.id.roll);
         room = (EditText)findViewById(R.id.room);
+        radioGroup = (RadioGroup)findViewById(R.id.radio);
+        first = (RadioButton)findViewById(R.id.first);
+        second = (RadioButton)findViewById(R.id.second);
+        third = (RadioButton)findViewById(R.id.third);
+        fourth = (RadioButton)findViewById(R.id.fourth);
+
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,17 +67,6 @@ public class SignupActivity extends AppCompatActivity {
                 Intent intent = new Intent();
             }
         });
-
-//        _loginLink.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Finish the registration screen and return to the Login activity
-//                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-//                startActivity(intent);
-//                finish();
-//                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-//            }
-//        });
     }
 
     public void signup() {
@@ -94,11 +95,37 @@ public class SignupActivity extends AppCompatActivity {
         String father_no = _father_no.getText().toString();
         int rollNo = Integer.parseInt(roll.getEditableText().toString());
         int roomNo = Integer.parseInt(room.getEditableText().toString());
+//        int selected = radioGroup.getCheckedRadioButtonId();
+//        y = (RadioButton) findViewById(selected);
+//        String s =  y.getText().toString();
+//        if (s.equals("First"))  {
+//            year = 1;
+//            flag = true;
+//        }
+//        else if (s.equals("Second"))  {
+//            year = 2;
+//            flag = true;}
+//        else if (s.equals("Third")) {
+//            year = 3;
+//            flag = true;
+//        }
+//        else if (s.equals("Fourth")) {
+//            year = 4;
+//            flag = true;
+//        }
+        if (first.isChecked()) year = 1;
+        else if (second.isChecked())  year = 2;
+        else if (third.isChecked()) year = 3;
+        else if (fourth.isChecked()) year = 4;
+        else year = 0;
 
-       // Student student = new Student(name,rollNo,roomNo,email,father,father_no,address,mobile,//TODO: how to add id here
+
+
+        Toast.makeText(this, "year = " + year, Toast.LENGTH_SHORT).show();
+        // Student student = new Student(name,rollNo,roomNo,email,father,father_no,address,mobile,//TODO: how to add id here
                 // );
 
-        // TODO: Implement signup logic here.
+        //signup logic
 
         openHelper = StudentOpenHelper.getInstance(getApplicationContext());
         SQLiteDatabase database = openHelper.getWritableDatabase();
@@ -113,6 +140,7 @@ public class SignupActivity extends AppCompatActivity {
         contentValues.put(Contract.FATHER_NO,father_no);
         contentValues.put(Contract.ROLL_NO,rollNo);
         contentValues.put(Contract.ROOM_NO,roomNo);
+        contentValues.put(Contract.YEAR,year);
 
 
         long id = database.insert(Contract.TABLE_NAME,null,contentValues);
@@ -129,7 +157,7 @@ public class SignupActivity extends AppCompatActivity {
         cv.put(Contract.ABSENT_DAYS,0);
         cv.put(Contract.LEAVE_DAYS,0);
         cv.put(Contract.PENDING_FINE,0);
-        cv.put(Contract.MARKED,0);
+       // cv.put(Contract.MARKED,0);
 
        long att_id =  sqLiteDatabase.insert(Contract.ATTENDANCE_TABLE_NAME,null,cv);
 
@@ -154,7 +182,6 @@ public class SignupActivity extends AppCompatActivity {
 
     public void onSignupFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
         _signupButton.setEnabled(true);
     }
 
@@ -169,6 +196,11 @@ public class SignupActivity extends AppCompatActivity {
         String father_no = _father_no.getText().toString();
         String rollNo = _roll.getText().toString();
         String room = _room.getText().toString();
+//
+//        if (flag == false){
+//            Toast.makeText(this,"Enter year",Toast.LENGTH_SHORT).show();
+//            valid = false;
+//        }
 
         if (name.isEmpty() || name.length() < 3) {
             _nameText.setError("at least 3 characters");
@@ -185,7 +217,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         if (rollNo.isEmpty()){
-            _roll.setError("enter a valid roll no");
+            _roll.setError("enter a valid year no");
             valid = false;
         }
         else {
@@ -215,7 +247,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         if (father.isEmpty() || father.length() < 3 ) {
-            _father.setError("at least 3 characters");
+            _father.setError("Atleast 3 characters");
             valid = false;
         } else {
             _father.setError(null);
@@ -227,7 +259,6 @@ public class SignupActivity extends AppCompatActivity {
         } else {
             _father_no.setError(null);
         }
-
         return valid;
     }
 }

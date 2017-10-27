@@ -20,10 +20,11 @@ public class Student implements Serializable {
     private String address;
     private String mobile;
     private String father_no;
+    private int year;
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    public Student(String name, int rollNo, int roomNo, String email, String father,String father_no, String address, String mobile, long id) {
+    public Student(String name, int rollNo, int roomNo, String email, String father,String father_no, String address, String mobile,int year, long id) {
         this.name = name;
         this.rollNo = rollNo;
         this.roomNo = roomNo;
@@ -32,6 +33,7 @@ public class Student implements Serializable {
         this.father_no = father_no;
         this.address = address;
         this.mobile = mobile;
+        this.year = year;
         this.id = id;
     }
 
@@ -97,6 +99,14 @@ public class Student implements Serializable {
 
     public void setFather_no(String father_no) {
         this.father_no = father_no;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public long getId() {

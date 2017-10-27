@@ -8,8 +8,9 @@ public class Contract {
 
     public static final String TABLE_NAME = "Records";
     public static final String STUDENT_ID = "id";
+    public static final String YEAR = "year" ;
     public static String STUDENT_NAME = "name";
-    public static final String ROLL_NO = "roll";
+    public static final String ROLL_NO = "year";
     public static final String ROOM_NO = "roomNo";
     public static final String ADDRESS = "address";
     public static final String MOBILE_NO = "mobile";

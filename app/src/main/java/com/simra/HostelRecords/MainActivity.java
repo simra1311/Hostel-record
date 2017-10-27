@@ -43,15 +43,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -159,6 +150,14 @@ public class MainActivity extends AppCompatActivity
             startActivity(chooser);
 
         }
+        else if (id == R.id.year){
+            fetchFromDatabaseSortedByYear();
+            Toast.makeText(this,"Sorted!",Toast.LENGTH_SHORT).show();
+        }
+        else  if (id == R.id.rooms){
+            fetchFromDatabaseSortedByRoom();
+            Toast.makeText(this,"Sorted!",Toast.LENGTH_SHORT).show();
+        }
         else if (id == R.id.nav_send){
             Intent feedback = new Intent();
             feedback.setAction(Intent.ACTION_SENDTO);
@@ -168,13 +167,71 @@ public class MainActivity extends AppCompatActivity
                 startActivity(feedback);
             }
             else {
-
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
             }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void fetchFromDatabaseSortedByRoom() {
+        list.clear();
+        openHelper = StudentOpenHelper.getInstance(getApplicationContext());
+        SQLiteDatabase sqLiteDatabase = openHelper.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.query(Contract.TABLE_NAME,null,null,null,null,null,Contract.ROOM_NO);
+
+        while (cursor.moveToNext()){
+            String name = cursor.getString(cursor.getColumnIndex(Contract.STUDENT_NAME));
+            String email = cursor.getString(cursor.getColumnIndex(Contract.EMAIL));
+            String address = cursor.getString(cursor.getColumnIndex(Contract.ADDRESS));
+            String mobile = cursor.getString(cursor.getColumnIndex(Contract.MOBILE_NO));
+            int roomNo = cursor.getInt(cursor.getColumnIndex(Contract.ROOM_NO));
+            int rollNo = cursor.getInt(cursor.getColumnIndex(Contract.ROLL_NO));
+            String father = cursor.getString(cursor.getColumnIndex(Contract.FATHER_NAME));
+            String father_no = cursor.getString(cursor.getColumnIndex(Contract.FATHER_NO));
+            int year = cursor.getInt(cursor.getColumnIndex(Contract.YEAR));
+            long id = cursor.getLong(cursor.getColumnIndex(Contract.STUDENT_ID));
+
+            Student s = new Student(name,rollNo,roomNo,email,father,father_no,address,mobile,year,id);
+            list.add(s);
+        }
+        cursor.close();
+//        StudentDatabase studentDatabasse = StudentDatabase.getInstance(MainActivity.this);
+//        list.addAll(studentDatabasse.getDao().getStudentList());
+        adapter.notifyDataSetChanged();
+
+
+    }
+
+    private void fetchFromDatabaseSortedByYear() {
+
+        list.clear();
+        openHelper = StudentOpenHelper.getInstance(getApplicationContext());
+        SQLiteDatabase sqLiteDatabase = openHelper.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.query(Contract.TABLE_NAME,null,null,null,null,null,Contract.YEAR);
+
+        while (cursor.moveToNext()){
+            String name = cursor.getString(cursor.getColumnIndex(Contract.STUDENT_NAME));
+            String email = cursor.getString(cursor.getColumnIndex(Contract.EMAIL));
+            String address = cursor.getString(cursor.getColumnIndex(Contract.ADDRESS));
+            String mobile = cursor.getString(cursor.getColumnIndex(Contract.MOBILE_NO));
+            int roomNo = cursor.getInt(cursor.getColumnIndex(Contract.ROOM_NO));
+            int rollNo = cursor.getInt(cursor.getColumnIndex(Contract.ROLL_NO));
+            String father = cursor.getString(cursor.getColumnIndex(Contract.FATHER_NAME));
+            String father_no = cursor.getString(cursor.getColumnIndex(Contract.FATHER_NO));
+            int year = cursor.getInt(cursor.getColumnIndex(Contract.YEAR));
+            long id = cursor.getLong(cursor.getColumnIndex(Contract.STUDENT_ID));
+
+            Student s = new Student(name,rollNo,roomNo,email,father,father_no,address,mobile,year,id);
+            list.add(s);
+        }
+        cursor.close();
+//        StudentDatabase studentDatabasse = StudentDatabase.getInstance(MainActivity.this);
+//        list.addAll(studentDatabasse.getDao().getStudentList());
+        adapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -199,9 +256,10 @@ public class MainActivity extends AppCompatActivity
             int rollNo = cursor.getInt(cursor.getColumnIndex(Contract.ROLL_NO));
             String father = cursor.getString(cursor.getColumnIndex(Contract.FATHER_NAME));
             String father_no = cursor.getString(cursor.getColumnIndex(Contract.FATHER_NO));
+            int year = cursor.getInt(cursor.getColumnIndex(Contract.YEAR));
             long id = cursor.getLong(cursor.getColumnIndex(Contract.STUDENT_ID));
 
-            Student s = new Student(name,rollNo,roomNo,email,father,father_no,address,mobile,id);
+            Student s = new Student(name,rollNo,roomNo,email,father,father_no,address,mobile,year,id);
             list.add(s);
         }
         cursor.close();
@@ -211,12 +269,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
 
 
     public void sendBroadcast(){

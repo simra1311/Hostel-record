@@ -44,7 +44,7 @@ public class CustomAdapter extends ArrayAdapter<Student> {
             TextView roll = (TextView)convertView.findViewById(R.id.roll);
             TextView room = (TextView)convertView.findViewById(R.id.room);
             holder.name = name;
-            holder.roll = roll;
+            holder.year = roll;
             holder.room = room;
             convertView.setTag(holder);
         }
@@ -52,8 +52,8 @@ public class CustomAdapter extends ArrayAdapter<Student> {
         holder = (ViewHolder)convertView.getTag();
         Student student = mList.get(position);
         holder.name.setText(student.getName());
-        holder.roll.setText(student.getRollNo()+"");
-        //holder.roll.setText(student.getRollNo());
+        holder.year.setText(student.getYear()+"");
+        //holder.year.setText(student.getRollNo());
         holder.room.setText(student.getRoomNo()+"");
         return convertView;
     }
@@ -62,7 +62,7 @@ public class CustomAdapter extends ArrayAdapter<Student> {
     static class ViewHolder {
 
         TextView name;
-        TextView roll;
+        TextView year;
         TextView room;
         Button button;
     }

@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,9 @@ public class PersonalisedRecords extends AppCompatActivity {
     String student_name;
     int roll;
     int room;
+    int year;
+    long id;
+    String email,father,add,mobile;
 
     String phoneNo;
     String message;
@@ -62,6 +66,13 @@ public class PersonalisedRecords extends AppCompatActivity {
          student_name = student.getName();
          roll = student.getRollNo();
          room = student.getRoomNo();
+         father_no = student.getFather_no();
+         father = student.getFather();
+        email = student.getEmail();
+        mobile = student.getMobile();
+        add  = student.getAddress();
+        id = student.getId();
+        year = student.getYear();
 
         openHelper = StudentOpenHelper.getInstance(getApplicationContext());
         final SQLiteDatabase sqLiteDatabase = openHelper.getReadableDatabase();
@@ -76,7 +87,7 @@ public class PersonalisedRecords extends AppCompatActivity {
         final int tot_fine;
         long id;
 
-        if (cursor.moveToFirst()!= true) {
+        if (!cursor.moveToFirst()) {
             Toast.makeText(this,"Record does not exist!!!",Toast.LENGTH_LONG).show();
             return;
         }
@@ -169,26 +180,17 @@ public class PersonalisedRecords extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        fine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //change fine
+
+            }
+        });
     }
 
-    protected void sendSMSIntent(String father_no) {
-        Log.i("Send SMS", "");
-        Intent smsIntent = new Intent(Intent.ACTION_VIEW);
 
-        smsIntent.setData(Uri.parse("smsto:"));
-        smsIntent.setType("vnd.android-dir/mms-sms");
-        smsIntent.putExtra("address"  , new String (father_no));
-        smsIntent.putExtra("sms_body"  , "Your ward " + name.getText().toString() + " is on leave from hostel");
-
-        try {
-            startActivity(smsIntent);
-            finish();
-            Log.i("Finished sending SMS...", "");
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(PersonalisedRecords.this,
-                    "SMS failed, please try again later.", Toast.LENGTH_SHORT).show();
-        }
-    }
 
 
     private void sendSMS(String father_no) {
@@ -233,6 +235,68 @@ public class PersonalisedRecords extends AppCompatActivity {
         }
     }
 
+    public void Fine(View view){
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(PersonalisedRecords.this);
+        View view1 = getLayoutInflater().inflate(R.layout.change_fine,null);
+        TextView textView = (TextView)view1.findViewById(R.id.title);
+        final EditText editText = (EditText)view1.findViewById(R.id.fine);
+        textView.setText("Change Fine amount?");
+        builder.setView(view1);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                int fine = Integer.parseInt(editText.getEditableText().toString());
+
+                StudentOpenHelper openHelper = StudentOpenHelper.getInstance(PersonalisedRecords.this);
+                SQLiteDatabase database = openHelper.getWritableDatabase();
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(Contract.PENDING_FINE,fine);
+//                contentValues.put(Contract.STUDENT_NAME,student_name);
+//                contentValues.put(Contract.MOBILE_NO, mobile);
+//                contentValues.put(Contract.EMAIL,email);
+//                contentValues.put(Contract.FATHER_NAME,father);
+//                contentValues.put(Contract.ADDRESS,add);
+//                contentValues.put(Contract.YEAR,year);
+//                contentValues.put(Contract.STUDENT_ID,id);
+//                contentValues.put(Contract.FATHER_NO,father_no);
+//                contentValues.put(Contract.ROLL_NO,roll);
+//                contentValues.put(Contract.ROOM_NO,room);
+                database.update(Contract.ATTENDANCE_TABLE_NAME,contentValues,Contract.STUDENT_NAME + " = ? ", new String[]{student_name});
+
+                Toast.makeText(PersonalisedRecords.this,"Fine updated!",Toast.LENGTH_SHORT).show();
+
+                sendSMSIntent(father_no,fine);
+
+
+            }
+        });
+        builder.setNegativeButton("Cancel",null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
+
+    protected void sendSMSIntent(String father_no,int fine) {
+        Log.i("Send SMS", "");
+        Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+
+        smsIntent.setData(Uri.parse("smsto:"));
+        smsIntent.setType("vnd.android-dir/mms-sms");
+        smsIntent.putExtra("address"  , new String (father_no));
+        smsIntent.putExtra("sms_body"  , "Your ward " + name.getText().toString() + " has been fined Rs." + fine +"/- Please pay the fine as soon as possible");
+
+        try {
+            startActivity(smsIntent);
+            finish();
+            Log.i("Finished sending SMS...", "");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(PersonalisedRecords.this,
+                    "SMS failed, please try again later.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -254,10 +318,11 @@ public class PersonalisedRecords extends AppCompatActivity {
 //
 //            return true;
 //        }
+
         if (id == R.id.detail){
             Intent intent = new Intent(this, DetailedRecords.class);
             intent.putExtra("name",student_name);
-            intent.putExtra("roll",roll);
+            intent.putExtra("year",roll);
             intent.putExtra("room",room);
             startActivity(intent);
         }
